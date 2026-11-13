@@ -1,7 +1,6 @@
 <?php
 
-// Conectar ao banco de dados
-<?php
+// Verificar se o usuário está conectado
 
 // Verificar se o usuário está conectado
 require_once "config/sessao.php";
