@@ -20,6 +20,7 @@ verificarLogin();
         <h1>SGOS</h1>
         <p>Sistema de Gerenciamento de Ordens de Serviço</p>
     </header>
+<?php require_once __DIR__ . '/../includes/menu.php'; ?>
 
     <main class="container">
 
