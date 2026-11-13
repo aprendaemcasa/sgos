@@ -1,5 +1,6 @@
 <?php
-
+require_once __DIR__ . '/../config/sessao.php';
+verificarLogin();
 require_once "../config/conexao.php";
 
 // Verificar se o ID foi recebido
