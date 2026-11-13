@@ -1,59 +1,27 @@
 <?php
+require_once __DIR__ . '/config/sessao.php';
+require_once __DIR__ . '/config/conexao.php';
 
-// Conectar ao banco de dados
-require_once "config/conexao.php";
-
-// Iniciar a sessão
-require_once "config/sessao.php";
-
-// Receber os dados do formulário
-$email = trim($_POST["email"] ?? "");
-$senha = $_POST["senha"] ?? "";
-
-// Verificar se os campos foram preenchidos
-if ($email === "" || $senha === "") {
-
-    die("Preencha o e-mail e a senha.");
-
-}
-
-// Buscar o usuário pelo e-mail
-$sql = "SELECT * FROM usuarios WHERE email = :email";
-
-$consulta = $conexao->prepare($sql);
-
-$consulta->execute([
-    ":email" => $email
-]);
-
-$usuario = $consulta->fetch(PDO::FETCH_ASSOC);
-
-// Verificar se o usuário existe e se a senha está correta
-if ($usuario && password_verify($senha, $usuario["senha"])) {
-
-    // Salvar os dados do usuário na sessão
-    session_regenerate_id(true);
-
-    $_SESSION["usuario_id"] = $usuario["id"];
-
-    $_SESSION["usuario_nome"] = $usuario["nome"];
-
-    $_SESSION["usuario_tipo"] = $usuario["tipo"];
-
-    // Entrar no painel principal
-    header("Location: index.php");
-
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: login.php');
     exit;
-
-} else {
-
-    // Caso os dados estejam incorretos
-    echo "<h2>Login inválido!</h2>";
-
-    echo "<p>E-mail ou senha incorretos.</p>";
-
-    echo '<a href="login.php">Tentar novamente</a>';
-
 }
-
-?>
+$email = trim($_POST['email'] ?? '');
+$senha = $_POST['senha'] ?? '';
+if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $senha === '') {
+    header('Location: login.php?erro=1');
+    exit;
+}
+$consulta = $conexao->prepare('SELECT id, nome, email, senha, tipo FROM usuarios WHERE email = :email LIMIT 1');
+$consulta->execute([':email' => $email]);
+$usuario = $consulta->fetch();
+if (!$usuario || !password_verify($senha, $usuario['senha'])) {
+    header('Location: login.php?erro=1');
+    exit;
+}
+session_regenerate_id(true);
+$_SESSION['usuario_id'] = (int)$usuario['id'];
+$_SESSION['usuario_nome'] = $usuario['nome'];
+$_SESSION['usuario_tipo'] = $usuario['tipo'];
+header('Location: index.php');
+exit;

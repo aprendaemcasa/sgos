@@ -1,17 +1,10 @@
 <?php
-
-// Iniciar a sessão
-require_once "config/sessao.php";
-
-// Apagar todos os dados da sessão
+require_once __DIR__ . '/config/sessao.php';
 $_SESSION = [];
-
-// Destruir a sessão
+if (ini_get('session.use_cookies')) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+}
 session_destroy();
-
-// Voltar para a tela de login
-header("Location: login.php");
-
+header('Location: login.php');
 exit;
-
-?>
