@@ -11,7 +11,11 @@ $email = trim($_POST["email"] ?? "");
 
 $senha = $_POST["senha"] ?? "";
 
-$tipo = $_POST["tipo"] ?? "funcionario";
+$tipoSolicitado = $_POST["tipo"] ?? "funcionario";
+// Somente um administrador pode criar outro administrador.
+$tipo = (($_SESSION["usuario_tipo"] ?? "") === "administrador" && $tipoSolicitado === "administrador")
+    ? "administrador"
+    : "funcionario";
 
 // Tipos de usuário permitidos
 $tiposPermitidos = [

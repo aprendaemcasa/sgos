@@ -71,6 +71,7 @@ verificarLogin();
 
                 <br><br>
 
+                <?php if (($_SESSION["usuario_tipo"] ?? "") === "administrador"): ?>
                 <label for="tipo">Tipo de usuário:</label>
 
                 <select name="tipo" id="tipo" required>
@@ -80,6 +81,9 @@ verificarLogin();
                     <option value="administrador">Administrador</option>
 
                 </select>
+                <?php else: ?>
+                <input type="hidden" name="tipo" value="funcionario">
+                <?php endif; ?>
 
                 <br><br>
 
