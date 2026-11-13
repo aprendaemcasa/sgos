@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../config/sessao.php';
+verificarLogin();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 

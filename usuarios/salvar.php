@@ -1,5 +1,6 @@
 <?php
-
+require_once __DIR__ . '/../config/sessao.php';
+verificarLogin();
 // Conectar ao banco de dados
 require_once "../config/conexao.php";
 
