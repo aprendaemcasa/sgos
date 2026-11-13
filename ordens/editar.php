@@ -1,5 +1,6 @@
 <?php
-
+require_once __DIR__ . '/../config/sessao.php';
+verificarLogin();
 require_once "../config/conexao.php";
 
 // Receber o ID da ordem pela URL
