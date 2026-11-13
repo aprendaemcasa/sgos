@@ -67,6 +67,7 @@ $servicos = $consultaServicos->fetchAll(PDO::FETCH_ASSOC);
         <p>Sistema de Gerenciamento de Ordens de Serviço</p>
 
     </header>
+<?php require_once __DIR__ . '/../includes/menu.php'; ?>
 
     <main class="container">
 
